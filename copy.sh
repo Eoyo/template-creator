@@ -25,13 +25,17 @@ then
     cp -R $temp/* $dir;
     echo "复制完成";
     ls -l;
-
-    # 如果是node项目
-    if [ $2 == '-node' ]
+    
+    # 当有第二个参数时
+    if [ $# -eq 2 ]
     then
-        echo "node_modules" >> .gitignore;
-        echo ".gitignore 生成成功";
-        yarn install;
+        # 如果是node项目
+        if [ $2 -eq "-node" ]
+        then
+            echo "node_modules" >> .gitignore;
+            echo ".gitignore 生成成功";
+            yarn install;
+        fi
     fi
 else
     echo '复制失败，模板文件不存在!'
