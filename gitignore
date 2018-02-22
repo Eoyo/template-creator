@@ -1,0 +1,5 @@
+# node
+node_modules
+
+# 用于调试的map文件
+*.map
