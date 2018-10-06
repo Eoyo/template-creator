@@ -30,7 +30,7 @@ then
     if [ $# -eq 2 ]
     then
         # 如果是node项目
-        if [ $2 -eq "-node" ]
+        if [ $2 == "-node" ]
         then
             echo "node_modules" >> .gitignore;
             echo ".gitignore 生成成功";

@@ -1,5 +1,8 @@
 #!/usr/bin/env node
 
+/** 
+ * 实现过滤式的复制文件;
+*/
 var map = require('map-stream');
 var vfs = require('vinyl-fs');
 const path = require('path');
