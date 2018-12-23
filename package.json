@@ -14,5 +14,6 @@
   },
   "bin": {
     "creator": "./es/Creator/createIndex.js"
-  }
+  },
+  "version": "1.0.0"
 }
