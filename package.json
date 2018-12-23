@@ -4,17 +4,15 @@
     "@types/node": "^10.11.7",
     "@types/shelljs": "^0.8.0",
     "chalk": "^2.4.1",
-    "commander": "^2.19.0",
-    "gulp": "^3.9.1",
     "ignore": "^5.0.2",
-    "map-stream": "^0.0.7",
-    "react-dev-utils": "^5.0.0",
     "shelljs": "^0.8.2",
-    "vinyl-fs": "^3.0.2",
     "yargs": "^12.0.2"
   },
-  "name": "mybin",
+  "name": "template-creator",
+  "scripts": {
+    "creator": "node ./es/Creator/createIndex.js"
+  },
   "bin": {
-    "create": "./es/Creator/createIndex.js"
+    "creator": "./es/Creator/createIndex.js"
   }
 }

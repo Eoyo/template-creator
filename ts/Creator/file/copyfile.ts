@@ -1,16 +1,16 @@
-import path from 'path';
-import shell from 'shelljs';
-import fs from 'fs';
-import chalk from 'chalk';
-import {logExists, logCreate, logIgnore, logUpdate} from '../logger/logger';
+import path from "path";
+import shell from "shelljs";
+import fs from "fs";
+import chalk from "chalk";
+import { logExists, logCreate, logIgnore, logUpdate } from "../logger/logger";
 export function CopyFile(
   base: string,
   name: string,
   dest: string,
-  ignore?: (str: string) => boolean,
+  ignore?: (str: string) => boolean
 ) {
-  let fromPath = path.resolve(base, name);
-  let toPath = path.resolve(dest, name);
+  let fromPath = path.join(base, name);
+  let toPath = path.join(dest, name);
 
   if (ignore && ignore(fromPath)) {
     logIgnore(toPath);
@@ -29,7 +29,7 @@ export function CopyFile(
         logCreate(toPath);
       }
 
-      shell.ls('-A', fromPath).forEach(fileName => {
+      shell.ls("-A", fromPath).forEach(fileName => {
         CopyFile(fromPath, fileName, toPath, ignore);
       });
     } else {
@@ -43,8 +43,6 @@ export function CopyFile(
       }
     }
   } else {
-    console.log(
-      chalk.red("Can't find the path: ") + chalk.green(path.resolve(fromPath)),
-    );
+    console.log(chalk.red("Can't find the path: ") + chalk.green(fromPath));
   }
 }
