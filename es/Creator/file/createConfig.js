@@ -8,9 +8,9 @@ const fs = require("fs");
 const path = require("path");
 const chalk_1 = __importDefault(require("chalk"));
 // 判断文件是否存在 teamplate-create/create.config.json
-exports.configDir = path.join(os.tmpdir(), "template-creator");
+exports.configDir = path.join(os.homedir(), "template-creator");
 exports.configFile = path.join(exports.configDir, "create.config.json");
-// 提示用户开始创建目录;
+// 提示用户配置模板文件的路径;
 function StartConfig(mod, cb) {
     switch (mod) {
         case "firstConfig":
@@ -50,7 +50,7 @@ function saveTemplateDir(templateFilesDir, cb) {
     fs.exists(exports.configDir, es => {
         if (es) {
             fs.writeFile(exports.configFile, JSON.stringify({
-                templateFilesDir
+                templateFilesDir,
             }), err => {
                 cb();
                 if (err) {
@@ -65,7 +65,7 @@ function saveTemplateDir(templateFilesDir, cb) {
                 }
                 else {
                     fs.writeFile(exports.configFile, JSON.stringify({
-                        templateFilesDir
+                        templateFilesDir,
                     }), err => {
                         cb();
                         if (err) {

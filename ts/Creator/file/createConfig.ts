@@ -5,10 +5,10 @@ import chalk from "chalk";
 
 // 判断文件是否存在 teamplate-create/create.config.json
 
-export let configDir = path.join(os.tmpdir(), "template-creator");
+export let configDir = path.join(os.homedir(), "template-creator");
 export let configFile = path.join(configDir, "create.config.json");
 
-// 提示用户开始创建目录;
+// 提示用户配置模板文件的路径;
 export function StartConfig(mod: "firstConfig" | "justConfig", cb: () => void) {
   switch (mod) {
     case "firstConfig":
@@ -54,7 +54,7 @@ function saveTemplateDir(templateFilesDir: string, cb: () => void) {
       fs.writeFile(
         configFile,
         JSON.stringify({
-          templateFilesDir
+          templateFilesDir,
         }),
         err => {
           cb();
@@ -71,7 +71,7 @@ function saveTemplateDir(templateFilesDir: string, cb: () => void) {
           fs.writeFile(
             configFile,
             JSON.stringify({
-              templateFilesDir
+              templateFilesDir,
             }),
             err => {
               cb();
