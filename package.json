@@ -10,7 +10,8 @@
   },
   "name": "template-creator",
   "scripts": {
-    "creator": "node ./es/Creator/createIndex.js"
+    "creator": "node ./es/Creator/createIndex.js",
+    "work": "tsc --watch"
   },
   "bin": {
     "creator": "./es/Creator/createIndex.js"
