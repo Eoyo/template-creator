@@ -1,7 +1,7 @@
-import { CheckToStartConfig } from "./checkCreate";
+import { CheckToStartConfig } from "./checkCreate"
 
 export function RunCreator() {
-  let command = process.argv[2];
+  const command = process.argv[2]
 
   switch (command) {
     case "--config":
@@ -9,12 +9,12 @@ export function RunCreator() {
     case "--c":
     case "--C":
     case "-C":
-      CheckToStartConfig(true);
-      break;
+      CheckToStartConfig(true)
+      break
     case "-l":
-      CheckToStartConfig(false);
-      break;
+      CheckToStartConfig(false)
+      break
     default:
-      CheckToStartConfig(false, command);
+      CheckToStartConfig(false, command)
   }
 }

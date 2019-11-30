@@ -1,60 +1,62 @@
-import { config } from "../config/config";
-import path from "path";
-import { readIgnore } from "../file/readCreatorIgnore";
-import { cutHead } from "../../str/cutHead";
-import { CopyFile } from "../file/copyfile";
-import ignore from "ignore";
-import chalk from "chalk";
-import fs = require("fs");
-import ExecuteFile from "../execute";
+/* eslint-disable no-console */
+import path from "path"
+import ignore from "ignore"
+import chalk from "chalk"
+import { config } from "../config/config"
+import { readIgnore } from "../file/readCreatorIgnore"
+import { cutHead } from "../../str/cutHead"
+import { CopyFile } from "../file/copyfile"
+import ExecuteFile from "../execute"
+
+import fs = require("fs")
 
 export function Create(fromDirName: string) {
-  const cwd = process.cwd();
-  const alwaysIgnore = ignore().add(config.alwaysIgnore);
+  const cwd = process.cwd()
+  const alwaysIgnore = ignore().add(config.alwaysIgnore)
 
-  const fromPath = path.join(config.templateDir, ".");
-  const dirPath = path.join(config.templateDir, fromDirName);
+  const fromPath = path.join(config.templateDir, ".")
+  const dirPath = path.join(config.templateDir, fromDirName)
   const ignorePath = path.join(
     config.templateDir,
     fromDirName,
     config.ignoreFile
-  );
+  )
 
-  console.log(chalk.blueBright("start to create..."));
+  console.log(chalk.blueBright("start to create..."))
 
   // 检查fromPath
   if (!fs.existsSync(dirPath)) {
-    console.log(chalk.red("Can't find the Dir: ") + chalk.green(dirPath));
-    return;
+    console.log(chalk.red("Can't find the Dir: ") + chalk.green(dirPath))
+    return
   }
 
   // 尝试读取 .creatignore; 没有读取到, fileIgnore 为undefined;
-  const fileIgnore = readIgnore(ignorePath);
+  const fileIgnore = readIgnore(ignorePath)
 
   // 配置ignorer;
-  let ignorer = alwaysIgnore;
+  let ignorer = alwaysIgnore
   if (fileIgnore) {
-    ignorer = alwaysIgnore.add(fileIgnore);
+    ignorer = alwaysIgnore.add(fileIgnore)
   } else {
     console.log(
       chalk.grey(`No ignore file (${config.ignoreFile}) at: `),
       chalk.green(ignorePath)
-    );
+    )
   }
 
   if (ignorer) {
-    ignorer.add([config.ignoreFile]);
-    CopyFile(dirPath, "", cwd, str => {
+    ignorer.add([config.ignoreFile])
+    CopyFile(dirPath, "", cwd, (str) => {
       // 读出相对 from path 的文件路径;
-      let sortStr = cutHead(fromPath, str);
+      const sortStr = cutHead(fromPath, str)
       if (sortStr) {
-        return ignorer.ignores(sortStr);
-      } else {
-        return false;
+        return ignorer.ignores(sortStr)
       }
-    });
-    ExecuteFile(dirPath);
+      return false
+    })
   } else {
-    CopyFile(dirPath, "", cwd);
+    CopyFile(dirPath, "", cwd)
   }
+
+  ExecuteFile(dirPath, cwd)
 }
