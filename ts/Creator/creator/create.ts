@@ -1,11 +1,12 @@
 import { config } from "../config/config";
 import path from "path";
 import { readIgnore } from "../file/readCreatorIgnore";
-import { cutHead } from "../../str/diff";
+import { cutHead } from "../../str/cutHead";
 import { CopyFile } from "../file/copyfile";
 import ignore from "ignore";
 import chalk from "chalk";
 import fs = require("fs");
+import ExecuteFile from "../execute";
 
 export function Create(fromDirName: string) {
   const cwd = process.cwd();
@@ -44,7 +45,7 @@ export function Create(fromDirName: string) {
   if (ignorer) {
     ignorer.add([config.ignoreFile]);
     CopyFile(dirPath, "", cwd, str => {
-      // 读出相对frompath的文件路径;
+      // 读出相对 from path 的文件路径;
       let sortStr = cutHead(fromPath, str);
       if (sortStr) {
         return ignorer.ignores(sortStr);
@@ -52,6 +53,7 @@ export function Create(fromDirName: string) {
         return false;
       }
     });
+    ExecuteFile(dirPath);
   } else {
     CopyFile(dirPath, "", cwd);
   }

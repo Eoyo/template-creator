@@ -6,11 +6,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const config_1 = require("../config/config");
 const path_1 = __importDefault(require("path"));
 const readCreatorIgnore_1 = require("../file/readCreatorIgnore");
-const diff_1 = require("../../str/diff");
+const cutHead_1 = require("../../str/cutHead");
 const copyfile_1 = require("../file/copyfile");
 const ignore_1 = __importDefault(require("ignore"));
 const chalk_1 = __importDefault(require("chalk"));
 const fs = require("fs");
+const execute_1 = __importDefault(require("../execute"));
 function Create(fromDirName) {
     const cwd = process.cwd();
     const alwaysIgnore = ignore_1.default().add(config_1.config.alwaysIgnore);
@@ -36,8 +37,8 @@ function Create(fromDirName) {
     if (ignorer) {
         ignorer.add([config_1.config.ignoreFile]);
         copyfile_1.CopyFile(dirPath, "", cwd, str => {
-            // 读出相对frompath的文件路径;
-            let sortStr = diff_1.cutHead(fromPath, str);
+            // 读出相对 from path 的文件路径;
+            let sortStr = cutHead_1.cutHead(fromPath, str);
             if (sortStr) {
                 return ignorer.ignores(sortStr);
             }
@@ -45,6 +46,7 @@ function Create(fromDirName) {
                 return false;
             }
         });
+        execute_1.default(dirPath);
     }
     else {
         copyfile_1.CopyFile(dirPath, "", cwd);

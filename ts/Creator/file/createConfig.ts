@@ -12,6 +12,7 @@ export let configFile = path.join(configDir, "create.config.json");
 export function StartConfig(mod: "firstConfig" | "justConfig", cb: () => void) {
   switch (mod) {
     case "firstConfig":
+      logVersion();
       console.log(
         "Template-Creator need to know your ",
         chalk.blue("TemplateFilesDir")
@@ -34,6 +35,7 @@ export function StartConfig(mod: "firstConfig" | "justConfig", cb: () => void) {
       });
       break;
     case "justConfig":
+      logVersion();
       console.log(chalk.blue("please input the TemplateFileDir:"));
       process.stdin.on("data", input => {
         // 去除回车;
@@ -54,7 +56,7 @@ function saveTemplateDir(templateFilesDir: string, cb: () => void) {
       fs.writeFile(
         configFile,
         JSON.stringify({
-          templateFilesDir,
+          templateFilesDir
         }),
         err => {
           cb();
@@ -71,7 +73,7 @@ function saveTemplateDir(templateFilesDir: string, cb: () => void) {
           fs.writeFile(
             configFile,
             JSON.stringify({
-              templateFilesDir,
+              templateFilesDir
             }),
             err => {
               cb();
@@ -84,4 +86,8 @@ function saveTemplateDir(templateFilesDir: string, cb: () => void) {
       });
     }
   });
+}
+
+function logVersion() {
+  console.log("version----- 2019-11-30");
 }
