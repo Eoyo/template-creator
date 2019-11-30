@@ -2,16 +2,15 @@
 import path from "path"
 import ignore from "ignore"
 import chalk from "chalk"
+import fs from "fs-extra"
 import { config } from "../config/config"
 import { readIgnore } from "../file/readCreatorIgnore"
 import { cutHead } from "../../str/cutHead"
 import { CopyFile } from "../file/copyfile"
 import ExecuteFile from "../execute"
 
-import fs = require("fs")
-
-export function Create(fromDirName: string) {
-  const cwd = process.cwd()
+export function Create(fromDirName: string, aimDirName = "") {
+  const cwd = path.join(process.cwd(), aimDirName)
   const alwaysIgnore = ignore().add(config.alwaysIgnore)
 
   const fromPath = path.join(config.templateDir, ".")

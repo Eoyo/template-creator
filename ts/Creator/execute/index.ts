@@ -8,18 +8,20 @@ import fs from "fs-extra"
 import R from "ramda"
 import { noEmptyString } from "../../str/noEmptyString"
 
-export default function ExecuteFile(dirPath: string, destDir: string) {
-  mergePackageJson(dirPath, destDir)
-  installModules(dirPath)
+export default async function ExecuteFile(dirPath: string, destDir: string) {
+  await mergePackageJson(dirPath, destDir)
+  await installModules(dirPath, destDir)
 }
 
-async function installModules(dirPath: string) {
+async function installModules(dirPath: string, destDir: string) {
   const str = await readFileAsString(path.join(dirPath, "modules.txt"))
   // 分割开发和生产包
   const all = str.split(">>>")
   const pro = all[0]
   const dev = all[1]
+  shell.cd(destDir)
   runInstallShell(trimToModulesList(pro), false)
+  shell.cd(destDir)
   runInstallShell(trimToModulesList(dev))
 }
 
@@ -30,7 +32,11 @@ async function readFileAsString(filePath: string) {
     const str = modulesFile.toString()
     return str
   }
-  console.warn("cant not get file", filePath)
+  console.warn(
+    "cant not get file",
+    filePath,
+    "this will return the empty value"
+  )
   return ""
 }
 

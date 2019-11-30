@@ -2,6 +2,7 @@ import { CheckToStartConfig } from "./checkCreate"
 
 export function RunCreator() {
   const command = process.argv[2]
+  const aimDirName = process.argv[3] || ""
 
   switch (command) {
     case "--config":
@@ -15,6 +16,6 @@ export function RunCreator() {
       CheckToStartConfig(false)
       break
     default:
-      CheckToStartConfig(false, command)
+      CheckToStartConfig(false, command, aimDirName)
   }
 }

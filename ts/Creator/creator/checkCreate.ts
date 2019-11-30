@@ -18,7 +18,8 @@ async function CheckFileToConfig(alwaysConfig = true): Promise<unknown> {
 
 export function CheckToStartConfig(
   configBeforeStart: boolean = false,
-  arg: string = ""
+  fromTemplateName: string = "",
+  aimDirName: string = ""
 ) {
   if (configBeforeStart) {
     CheckFileToConfig()
@@ -29,8 +30,8 @@ export function CheckToStartConfig(
         fs.readFileSync(configFilePath).toString()
       ) as Config).templateFilesDir
 
-      if (arg) {
-        Create(arg)
+      if (fromTemplateName) {
+        Create(fromTemplateName, aimDirName)
       } else {
         listFile(config.templateDir)
       }
