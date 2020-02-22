@@ -1,9 +1,9 @@
-shell
+./shell
 yarn-error.log
 yarn.lock
-src
-.eslintignore
-.eslintrc.yml
-.gitignore
-.prettierrc.yml
+./src
+./.eslintignore
+./.eslintrc.yml
+./.gitignore
+./.prettierrc.yml
 tsconfig.json
