@@ -5,7 +5,7 @@
     "pub": "tsc && yarn publish"
   },
   "name": "template-creator",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "bin": {
     "creator": "./dist/index.js"
   },
