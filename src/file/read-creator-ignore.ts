@@ -1,7 +1,6 @@
 import fs from "fs"
 import ignore from "ignore"
 
-//
 export function readIgnoreFileAsArr(filePath: string) {
   const str = fs.readFileSync(filePath).toString()
   const divider = /([; ,\n])+/

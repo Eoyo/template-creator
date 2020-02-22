@@ -6,13 +6,13 @@ import chalk from "chalk"
 import { logExists, logCreate, logIgnore, logUpdate } from "../logger/logger"
 
 export function copyFile(
-  base: string,
-  name: string,
-  dest: string,
-  ignore?: (str: string) => boolean
+  from: string,
+  to: string,
+  ignore?: (str: string) => boolean,
+  fileName: string = ""
 ) {
-  const fromPath = path.join(base, name)
-  const toPath = path.join(dest, name)
+  const fromPath = path.join(from, fileName)
+  const toPath = path.join(to, fileName)
 
   if (ignore && ignore(fromPath)) {
     logIgnore(toPath)
@@ -31,8 +31,8 @@ export function copyFile(
         logCreate(toPath)
       }
 
-      shell.ls("-A", fromPath).forEach((fileName) => {
-        copyFile(fromPath, fileName, toPath, ignore)
+      shell.ls("-A", fromPath).forEach((oneFileName) => {
+        copyFile(fromPath, toPath, ignore, oneFileName)
       })
     } else if (fs.existsSync(toPath)) {
       shell.cp(fromPath, toPath)

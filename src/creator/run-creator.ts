@@ -2,7 +2,8 @@ import path from "path"
 import { listFile } from "../file/list-file"
 import { config } from "../config/config"
 import { copyTemplate } from "./copy-template"
-import { executeFile } from "./execute-file"
+import { installModulesFromModulesText } from "./install-modules"
+import { mergePackageJson } from "./merge-package-json"
 
 export function RunCreator() {
   const arg1: string | undefined = process.argv[2] || ""
@@ -18,6 +19,7 @@ export function RunCreator() {
       break
     default:
       copyTemplate(fromDir, aimDir)
-      executeFile(fromDir, aimDir)
+      installModulesFromModulesText(fromDir, aimDir)
+      mergePackageJson(fromDir, aimDir)
   }
 }
