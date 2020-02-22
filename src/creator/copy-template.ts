@@ -8,23 +8,16 @@ import { copyFile } from "../file/copy-file"
 import { readIgnore } from "../file/read-creator-ignore"
 import { cutHead } from "../str/cutHead"
 
-export function copyTemplate(fromDirName: string, aimDirName: string = "") {
-  const cwd = path.join(process.cwd(), aimDirName)
+export function copyTemplate(fromDir: string, aimDir: string) {
   const alwaysIgnore = ignore().add(config.alwaysIgnore)
 
   const fromPath = path.join(config.templateDir, ".")
-  const dirPath = path.join(config.templateDir, fromDirName)
-  const ignorePath = path.join(
-    config.templateDir,
-    fromDirName,
-    config.ignoreFile
-  )
+  const ignorePath = path.join(fromDir, config.ignoreFile)
 
   console.log(chalk.blueBright("start to create..."))
 
-  // 检查fromPath
-  if (!fs.existsSync(dirPath)) {
-    console.log(chalk.red("Can't find the Dir: ") + chalk.green(dirPath))
+  if (!fs.existsSync(fromDir)) {
+    console.log(chalk.red("Can't find the Dir: ") + chalk.green(fromDir))
     return
   }
 
@@ -44,7 +37,7 @@ export function copyTemplate(fromDirName: string, aimDirName: string = "") {
 
   if (ignorer) {
     ignorer.add([config.ignoreFile])
-    copyFile(dirPath, "", cwd, (str) => {
+    copyFile(fromDir, "", aimDir, (str) => {
       // 读出相对 from path 的文件路径;
       const sortStr = cutHead(fromPath, str)
       if (sortStr) {
@@ -53,6 +46,6 @@ export function copyTemplate(fromDirName: string, aimDirName: string = "") {
       return false
     })
   } else {
-    copyFile(dirPath, "", cwd)
+    copyFile(fromDir, "", aimDir)
   }
 }
