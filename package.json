@@ -9,6 +9,13 @@
   "bin": {
     "creator": "./dist/index.js"
   },
+  "author": "liumiao <yoix@foxmail.com>",
+  "contributors": [
+    {
+      "name": "eoyo",
+      "email": "yoix@foxmail.com"
+    }
+  ],
   "dependencies": {
     "@types/fs-extra": "^8.0.1",
     "@types/gulp": "^4.0.5",
