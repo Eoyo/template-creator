@@ -7,3 +7,5 @@ test/
 
 try
 dist
+shell
+yarn-error.log
