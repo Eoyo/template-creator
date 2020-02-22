@@ -1,5 +1,7 @@
+import { paths } from "./path"
+
 export const config = {
-  templateDir: "/home/lium/template",
+  templateDir: paths.root("__template__"),
   ignoreFile: "ignore.config",
   alwaysIgnore: [
     "ignore.config",

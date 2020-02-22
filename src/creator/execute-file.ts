@@ -6,19 +6,14 @@ import shell from "shelljs"
 import path from "path"
 import fs from "fs-extra"
 import R from "ramda"
-import { noEmptyString } from "../../str/noEmptyString"
-
-export default async function ExecuteFile(dirPath: string, destDir: string) {
-  await mergePackageJson(dirPath, destDir)
-  await installModules(dirPath, destDir)
-}
+import { noEmptyString } from "../str/noEmptyString"
 
 async function installModules(dirPath: string, destDir: string) {
   const str = await readFileAsString(path.join(dirPath, "modules.txt"))
   // 分割开发和生产包
   const all = str.split(">>>")
-  const pro = all[0]
-  const dev = all[1]
+  const pro = all[0] || ""
+  const dev = all[1] || ""
   shell.cd(destDir)
   runInstallShell(trimToModulesList(pro), false)
   shell.cd(destDir)
@@ -68,4 +63,9 @@ async function mergePackageJson(dirPath: string, destDir: string) {
   const currentPackageJSON = await readFileAsJson(packageJsonPath)
   const newPackageJSON = R.mergeDeepRight(packageJSON, currentPackageJSON)
   return fs.writeFile(packageJsonPath, JSON.stringify(newPackageJSON, null, 2))
+}
+
+export async function executeFile(dirPath: string, destDir: string) {
+  await mergePackageJson(dirPath, destDir)
+  await installModules(dirPath, destDir)
 }

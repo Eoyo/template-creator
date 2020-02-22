@@ -1,14 +1,13 @@
 {
   "scripts": {
-    "lint": "",
-    "lint-fix": "fix",
-    "creator": "node ./dist/Creator/createIndex.js",
-    "work": "tsc --watch"
+    "creator": "node ./dist/index.js",
+    "work": "tsc --watch",
+    "pub": "tsc && yarn publish"
   },
   "name": "template-creator",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "bin": {
-    "creator": "./dist/Creator/createIndex.js"
+    "creator": "./dist/index.js"
   },
   "dependencies": {
     "@types/fs-extra": "^8.0.1",

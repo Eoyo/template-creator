@@ -5,7 +5,7 @@ import fs from "fs"
 import chalk from "chalk"
 import { logExists, logCreate, logIgnore, logUpdate } from "../logger/logger"
 
-export function CopyFile(
+export function copyFile(
   base: string,
   name: string,
   dest: string,
@@ -32,7 +32,7 @@ export function CopyFile(
       }
 
       shell.ls("-A", fromPath).forEach((fileName) => {
-        CopyFile(fromPath, fileName, toPath, ignore)
+        copyFile(fromPath, fileName, toPath, ignore)
       })
     } else if (fs.existsSync(toPath)) {
       shell.cp(fromPath, toPath)

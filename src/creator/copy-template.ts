@@ -4,12 +4,11 @@ import ignore from "ignore"
 import chalk from "chalk"
 import fs from "fs-extra"
 import { config } from "../config/config"
-import { readIgnore } from "../file/readCreatorIgnore"
-import { cutHead } from "../../str/cutHead"
-import { CopyFile } from "../file/copyfile"
-import ExecuteFile from "../execute"
+import { copyFile } from "../file/copy-file"
+import { readIgnore } from "../file/read-creator-ignore"
+import { cutHead } from "../str/cutHead"
 
-export function Create(fromDirName: string, aimDirName = "") {
+export function copyTemplate(fromDirName: string, aimDirName: string = "") {
   const cwd = path.join(process.cwd(), aimDirName)
   const alwaysIgnore = ignore().add(config.alwaysIgnore)
 
@@ -45,7 +44,7 @@ export function Create(fromDirName: string, aimDirName = "") {
 
   if (ignorer) {
     ignorer.add([config.ignoreFile])
-    CopyFile(dirPath, "", cwd, (str) => {
+    copyFile(dirPath, "", cwd, (str) => {
       // 读出相对 from path 的文件路径;
       const sortStr = cutHead(fromPath, str)
       if (sortStr) {
@@ -54,8 +53,6 @@ export function Create(fromDirName: string, aimDirName = "") {
       return false
     })
   } else {
-    CopyFile(dirPath, "", cwd)
+    copyFile(dirPath, "", cwd)
   }
-
-  ExecuteFile(dirPath, cwd)
 }
