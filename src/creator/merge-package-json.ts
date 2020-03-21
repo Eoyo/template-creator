@@ -23,8 +23,8 @@ function getPackageJsonPathInDir(dirPath: string) {
 }
 
 export async function mergePackageJson(fromDir: string, destDir: string) {
-  const fromPackageJsonPath = getPackageJsonPathInDir(destDir)
-  const destPackageJsonPath = getPackageJsonPathInDir(fromDir)
+  const fromPackageJsonPath = getPackageJsonPathInDir(fromDir)
+  const destPackageJsonPath = getPackageJsonPathInDir(destDir)
 
   const [packageJSON, currentPackageJSON] = await Promise.all([
     readFileAsJson(fromPackageJsonPath),
@@ -33,8 +33,9 @@ export async function mergePackageJson(fromDir: string, destDir: string) {
 
   const newPackageJSON = R.mergeDeepRight(packageJSON, currentPackageJSON)
 
+  console.log(destPackageJsonPath, JSON.stringify(newPackageJSON, null, 2))
   return fs.writeFile(
-    fromPackageJsonPath,
+    destPackageJsonPath,
     JSON.stringify(newPackageJSON, null, 2)
   )
 }

@@ -14,7 +14,10 @@ import { readFileAsString } from "../file/read-file-as-string"
 function installModuleList(modulesStr: string, isDev = true) {
   const modulesList = noEmptyString(modulesStr.split("\n")).join(" ")
   if (modulesList) {
-    shell.exec(`yarn add ${modulesList}${isDev ? " -D" : ""}`)
+    const command = `yarn add ${modulesList}${isDev ? " -D" : ""}`
+    console.log(command)
+    shell.exec(command)
+    console.log("OK")
   }
 }
 
@@ -28,6 +31,7 @@ export async function installModulesFromModulesText(
 ) {
   const fileStr = await readFileAsString(path.join(fromDir, "modules.txt"))
   const [pro, dev] = fileStr.split(">>>")
+  console.log("installing at ", destDir)
   shell.cd(destDir)
   installModuleList(pro, false)
   shell.cd(destDir)
