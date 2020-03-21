@@ -8,7 +8,7 @@ module.exports = {
     "^dist/(.*)$": "<rootDir>/dist/$1",
   },
   testMatch: ["<rootDir>/__test__/**/*.(spec|test).(j|t)s?(x)"],
-  setupFiles: ["<rootDir>/__mock__/index.js"],
+  setupFiles: ["<rootDir>/__mock__/index.ts"],
   globals: {
     "ts-jest": {
       tsConfig: "tsconfig.json",

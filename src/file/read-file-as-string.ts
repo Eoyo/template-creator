@@ -7,11 +7,5 @@ export async function readFileAsString(filePath: string) {
     const str = modulesFile.toString()
     return str
   }
-  // eslint-disable-next-line no-console
-  console.warn(
-    "cant not get file",
-    filePath,
-    "this will return the empty value"
-  )
   return ""
 }

@@ -4,6 +4,7 @@ import shell from "shelljs"
 import fs from "fs"
 import chalk from "chalk"
 import { logExists, logCreate, logIgnore, logUpdate } from "../logger/logger"
+import { mergeJson } from "../creator/merge-package-json"
 
 export function copyFile(
   from: string,
@@ -34,12 +35,25 @@ export function copyFile(
       shell.ls("-A", fromPath).forEach((oneFileName) => {
         copyFile(fromPath, toPath, ignore, oneFileName)
       })
-    } else if (fs.existsSync(toPath)) {
-      shell.cp(fromPath, toPath)
-      logUpdate(toPath)
     } else {
-      shell.cp(fromPath, toPath)
-      logCreate(toPath)
+      const isExist = fs.existsSync(toPath)
+      if (path.extname(fromPath) === ".json") {
+        mergeJson(fromPath, toPath)
+        if (isExist) {
+          logUpdate(toPath)
+        } else {
+          logCreate(toPath)
+        }
+      } else if (isExist && path.extname(fromPath) === ".ts") {
+        logIgnore(toPath)
+      } else {
+        shell.cp(fromPath, toPath)
+        if (isExist) {
+          logUpdate(toPath)
+        } else {
+          logCreate(toPath)
+        }
+      }
     }
   } else {
     console.log(chalk.red("Can't find the path: ") + chalk.green(fromPath))

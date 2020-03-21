@@ -5,8 +5,7 @@
     "outDir": "./dist",
     "rootDir": "./",
     "strict": true,
-    "esModuleInterop": true,
-    "jsx": "react",
+    "esModuleInterop": true
   },
   "include": ["src", "__test__"],
   "exclude": ["node_modules"]

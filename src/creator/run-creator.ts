@@ -3,14 +3,14 @@ import { listFile } from "../file/list-file"
 import { config } from "../config/config"
 import { copyTemplate } from "./copy-template"
 import { installModulesFromModulesText } from "./install-modules"
-import { mergePackageJson } from "./merge-package-json"
+import { mergeJson } from "./merge-package-json"
 
 export async function RunCreator() {
-  const arg1: string | undefined = process.argv[2] || ""
+  const arg1: string = process.argv[2] || ""
   const arg2: string = process.argv[3] || ""
 
-  const fromDir = path.join(config.templateDir, arg1)
-  const aimDir = path.join(process.cwd(), arg2)
+  const templateDir = path.join(config.templateDir, arg1)
+  const workingDir = path.join(process.cwd(), arg2)
 
   switch (arg1) {
     case "-l":
@@ -18,8 +18,12 @@ export async function RunCreator() {
       listFile(config.templateDir)
       break
     default:
-      await mergePackageJson(fromDir, aimDir)
-      copyTemplate(fromDir, aimDir)
-      installModulesFromModulesText(fromDir, aimDir)
+      // 保证在安装包之前完成 package.json 的更新
+      await mergeJson(
+        path.join(templateDir, "package.json"),
+        path.join(workingDir, "package.json")
+      )
+      copyTemplate(templateDir, workingDir)
+      installModulesFromModulesText(templateDir, workingDir)
   }
 }

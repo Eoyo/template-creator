@@ -1,7 +1,6 @@
 import fs from "fs-extra"
-import path from "path"
-import R from "ramda"
 import { readFileAsString } from "../file/read-file-as-string"
+import { deepMerge } from "./deepMerge"
 
 const safeParseJson = (str: string) => {
   if (str) {
@@ -18,24 +17,15 @@ const readFileAsJson = async (filePath: string) => {
   return safeParseJson(await readFileAsString(filePath))
 }
 
-function getPackageJsonPathInDir(dirPath: string) {
-  return path.join(dirPath, "package.json")
-}
-
-export async function mergePackageJson(fromDir: string, destDir: string) {
-  const fromPackageJsonPath = getPackageJsonPathInDir(fromDir)
-  const destPackageJsonPath = getPackageJsonPathInDir(destDir)
-
-  const [packageJSON, currentPackageJSON] = await Promise.all([
-    readFileAsJson(fromPackageJsonPath),
-    readFileAsJson(destPackageJsonPath),
+export async function mergeJson(
+  templateJsonPath: string,
+  destJsonPath: string
+) {
+  const [templatePackageJSON, currentPackageJSON] = await Promise.all([
+    readFileAsJson(templateJsonPath),
+    readFileAsJson(destJsonPath),
   ])
 
-  const newPackageJSON = R.mergeDeepRight(packageJSON, currentPackageJSON)
-
-  console.log(destPackageJsonPath, JSON.stringify(newPackageJSON, null, 2))
-  return fs.writeFile(
-    destPackageJsonPath,
-    JSON.stringify(newPackageJSON, null, 2)
-  )
+  const [newPackageJSON] = deepMerge(currentPackageJSON, templatePackageJSON)
+  return fs.writeFile(destJsonPath, JSON.stringify(newPackageJSON, null, 2))
 }
