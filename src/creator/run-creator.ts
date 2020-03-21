@@ -2,7 +2,6 @@ import path from "path"
 import { listFile } from "../file/list-file"
 import { config } from "../config/config"
 import { copyTemplate } from "./copy-template"
-import { installModulesFromModulesText } from "./install-modules"
 import { mergeJson } from "./merge-package-json"
 
 export async function RunCreator() {
@@ -24,6 +23,5 @@ export async function RunCreator() {
         path.join(workingDir, "package.json")
       )
       copyTemplate(templateDir, workingDir)
-      installModulesFromModulesText(templateDir, workingDir)
   }
 }

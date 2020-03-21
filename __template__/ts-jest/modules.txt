@@ -1,4 +1,0 @@
->>>
-jest
-@types/jest
-ts-jest
